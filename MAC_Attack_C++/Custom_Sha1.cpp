@@ -7,7 +7,8 @@ Custom_Sha1::Custom_Sha1()
 
 void Custom_Sha1::Hash(string message)
 {
-    istringstream messageStream(message);
+    
+    istringstream messageStream(PaddMessage(message));
     while (true)
     {
         char sbuf[BLOCKBITS];
@@ -17,6 +18,7 @@ void Custom_Sha1::Hash(string message)
         {
             return;
         }
+        InitDigest();
         BuildBlock(buffer);
         BuildMessageSchedule();
         InitWorkVars();
@@ -66,14 +68,12 @@ uint32_t Custom_Sha1::SHR(uint32_t input, size_t bits)
 
 void Custom_Sha1::reset(uint32_t digest[], std::string& buffer)
 {
-    /* SHA1 initialization constants */
     digest[0] = 0x67452301;
     digest[1] = 0xefcdab89;
     digest[2] = 0x98badcfe;
     digest[3] = 0x10325476;
     digest[4] = 0xc3d2e1f0;
 
-    /* Reset counters */
     buffer = "";
 }
 
@@ -145,4 +145,18 @@ void Custom_Sha1::SetDigest()
     digest[2] = c ^ digest[2];
     digest[3] = d ^ digest[3];
     digest[4] = e ^ digest[4];
+}
+
+void Custom_Sha1::InitDigest()
+{
+    digest[0] = 0x67452301;
+    digest[1] = 0xefcdab89;
+    digest[2] = 0x98badcfe;
+    digest[3] = 0x10325476;
+    digest[4] = 0xc3d2e1f0;
+}
+
+string Custom_Sha1::PaddMessage(string message)
+{
+    return string();
 }

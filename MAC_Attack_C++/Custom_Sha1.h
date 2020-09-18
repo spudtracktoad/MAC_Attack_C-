@@ -37,5 +37,7 @@ private:
     uint32_t Function(uint32_t x, uint32_t y, uint32_t z, uint32_t index);
     uint32_t GetConstantK(uint32_t index);
     void SetDigest();
+    void InitDigest();
+    string PaddMessage(string message);
 
 };
