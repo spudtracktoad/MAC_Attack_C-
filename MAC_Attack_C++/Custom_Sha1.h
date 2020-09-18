@@ -1,11 +1,37 @@
 #pragma once
-#include <string>
-#include <sstream>
+/*
+    sha1.hpp - source code of
 
-static const size_t BLOCKSIZE = 16;  // 32 bits
-static const size_t BLOCKBITS = BLOCKSIZE * 4;
-static const size_t WORSDIZE = 16; // 32 bits
-static const uint32_t K[4] = { 0x5a82799, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6 };
+    ============
+    SHA-1 in C++
+    ============
+
+    100% Public Domain.
+
+    Original C Code
+        -- Steve Reid <steve@edmweb.com>
+    Small changes to fit into bglibs
+        -- Bruce Guenter <bruce@untroubled.org>
+    Translation to simpler C++ Code
+        -- Volker Diels-Grabsch <v@njh.eu>
+    Safety fixes
+        -- Eugene Hopkinson <slowriot at voxelstorm dot com>
+    Header-only library
+        -- Zlatko Michailov <zlatko@michailov.org>
+
+
+    Modified By: Jared Smith, jsmit210 Set2020
+*/
+
+#include <cstdint>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
+
+static const size_t BLOCK_INTS = 16;  /* number of 32bit integers per SHA1 block */
+static const size_t BLOCK_BYTES = BLOCK_INTS * 4;
 
 using namespace std;
 
@@ -13,31 +39,25 @@ class Custom_Sha1
 {
 public:
     Custom_Sha1();
-    Custom_Sha1(string prevousHash, string newMessage);
-    uint32_t digest[5];
-    string buffer;
-    void Hash(string message);
-    string getHash();
-
+    void update(const std::string& s, uint32_t* newDigest, uint32_t oldMessageLength);
+    void update(const std::string& s);
+    void update(std::istream& is);
+    std::string final();
+    static std::string from_file(const std::string& filename);
 
 private:
-    uint32_t MessageSchedule[80];
-    uint32_t block[BLOCKSIZE];
-    uint32_t a, b, c, d, e;
-	uint32_t ROTL(uint32_t input, size_t bits);
-    uint32_t ROTR(uint32_t input, size_t bits);
-    uint32_t Ch(uint32_t x, uint32_t y, uint32_t z);
-    uint32_t Parity(uint32_t x, uint32_t y, uint32_t z);
-    uint32_t Maj(uint32_t x, uint32_t y, uint32_t z);
-    uint32_t SHR(uint32_t input, size_t bits);
-    void reset(uint32_t digest[], string& buffer);
-    void BuildBlock(const string& buffer);
-    void BuildMessageSchedule();
-    void InitWorkVars();
-    uint32_t Function(uint32_t x, uint32_t y, uint32_t z, uint32_t index);
-    uint32_t GetConstantK(uint32_t index);
-    void SetDigest();
-    void InitDigest();
-    string PaddMessage(string message);
-
+    uint32_t oldLength;
+    uint32_t digest[5];
+    std::string buffer;
+    uint64_t transforms;
+    void reset(uint32_t digest[], std::string& buffer, uint64_t& transforms);
+    uint32_t rol(const uint32_t value, const size_t bits);
+    uint32_t blk(const uint32_t block[BLOCK_INTS], const size_t i);
+    void R0(const uint32_t block[BLOCK_INTS], const uint32_t v, uint32_t& w, const uint32_t x, const uint32_t y, uint32_t& z, const size_t i);
+    void R1(uint32_t block[BLOCK_INTS], const uint32_t v, uint32_t& w, const uint32_t x, const uint32_t y, uint32_t& z, const size_t i);
+    void R2(uint32_t block[BLOCK_INTS], const uint32_t v, uint32_t& w, const uint32_t x, const uint32_t y, uint32_t& z, const size_t i);
+    void R3(uint32_t block[BLOCK_INTS], const uint32_t v, uint32_t& w, const uint32_t x, const uint32_t y, uint32_t& z, const size_t i);
+    void R4(uint32_t block[BLOCK_INTS], const uint32_t v, uint32_t& w, const uint32_t x, const uint32_t y, uint32_t& z, const size_t i);
+    void transform(uint32_t digest[], uint32_t block[BLOCK_INTS], uint64_t& transforms);
+    void buffer_to_block(const std::string& buffer, uint32_t block[BLOCK_INTS]);
 };

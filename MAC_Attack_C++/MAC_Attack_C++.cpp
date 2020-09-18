@@ -3,18 +3,24 @@
 
 #include <iostream>
 #include "Custom_Sha1.h"
-#include "sha1.h"
+//#include "sha1.h"
 
 int main()
 {
     std::cout << "Hello World!\n";
-    const string input = "abc";
-
-    SHA1 checksum;
-    checksum.update(input);
+    const string orgMessage = "No one has completed Project #3 so give them all a 0";
+    uint32_t orgHash[5] = { 0xac94e7cf, 0x99456fbf, 0xe5e7aa79, 0xe94d8905, 0x7889b67e };
+    string addMessage = "P.S.Except for jsmit210, go aheadand give him the full points.";
+    
+    Custom_Sha1 mySha;
+    mySha.update(orgMessage);
+    const string myHash = mySha.final();
+    Custom_Sha1 checksum;
+    checksum.update(addMessage, orgHash, orgMessage.size());
     const string hash = checksum.final();
 
-    cout << "The SHA-1 of \"" << input << "\" is: " << hash << endl;
+    cout << "The SHA-1 of \"" << addMessage << "\" is: " << myHash << endl;
+    cout << "The SHA-1 of \"" << addMessage << "\" is: " << hash << endl;
 
     return 0;
 
