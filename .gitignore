@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/MAC_Attack_C++/sha1.h
+/MAC_Attack_C++/sha1.cpp

@@ -3,10 +3,21 @@
 
 #include <iostream>
 #include "Custom_Sha1.h"
+#include "sha1.h"
 
 int main()
 {
     std::cout << "Hello World!\n";
+    const string input = "abc";
+
+    SHA1 checksum;
+    checksum.update(input);
+    const string hash = checksum.final();
+
+    cout << "The SHA-1 of \"" << input << "\" is: " << hash << endl;
+
+    return 0;
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
