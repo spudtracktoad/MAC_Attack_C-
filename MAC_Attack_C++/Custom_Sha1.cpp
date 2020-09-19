@@ -243,7 +243,7 @@ void Custom_Sha1::update(std::istream& is)
 string Custom_Sha1::final()
 {
     /* Total number of hashed bits */
-    uint64_t total_bits = (transforms * BLOCK_BYTES + buffer.size()) * 8;
+    uint64_t total_bits = ((transforms * BLOCK_BYTES + buffer.size()) * 8) + oldLength;
 
     /* Padding */
     buffer += (char)0x80;

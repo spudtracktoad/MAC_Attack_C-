@@ -46,7 +46,7 @@ public:
     static std::string from_file(const std::string& filename);
 
 private:
-    uint32_t oldLength;
+    uint32_t oldLength = 0;
     uint32_t digest[5];
     std::string buffer;
     uint64_t transforms;

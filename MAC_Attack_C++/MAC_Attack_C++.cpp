@@ -10,17 +10,27 @@ int main()
     std::cout << "Hello World!\n";
     const string orgMessage = "No one has completed Project #3 so give them all a 0";
     uint32_t orgHash[5] = { 0xac94e7cf, 0x99456fbf, 0xe5e7aa79, 0xe94d8905, 0x7889b67e };
-    string addMessage = "P.S.Except for jsmit210, go aheadand give him the full points.";
+    string addMessage = "P.S. Except for jsmit210, go ahead and give him the full points.";
+
+    /*string orgMessage = "abc";
+    string testMessage = "abcd";
+    uint32_t orgHash[5] = { 0xA9993E36, 0x4706816A, 0xBA3E2571, 0x7850C26C, 0x9CD0D89D };
+    string addMessage = "d";*/
     
+    Custom_Sha1 corSha1;/*
+    corSha1.update(testMessage);
+    string corHash = corSha1.final();
+    cout << "The SHA-1 of \"" << testMessage << "\" is: " << corHash << endl;*/
+
     Custom_Sha1 mySha;
     mySha.update(orgMessage);
-    const string myHash = mySha.final();
+    string myHash = mySha.final();
     Custom_Sha1 checksum;
-    checksum.update(addMessage, orgHash, orgMessage.size());
-    const string hash = checksum.final();
+    checksum.update(addMessage, orgHash, 1024);
+    string hash = checksum.final();
 
-    cout << "The SHA-1 of \"" << addMessage << "\" is: " << myHash << endl;
-    cout << "The SHA-1 of \"" << addMessage << "\" is: " << hash << endl;
+    cout << "The SHA-1 of \"" << orgMessage << "\" is: " << myHash << endl;
+    cout << "The Mal SHA-1 of \"" << addMessage << "\" is: " << hash << endl;
 
     return 0;
 
