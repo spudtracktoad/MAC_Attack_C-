@@ -141,7 +141,6 @@
   <ItemGroup>
     <ClCompile Include="Custom_Sha1.cpp" />
     <ClCompile Include="MAC_Attack_C++.cpp" />
-    <ClCompile Include="sha1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Custom_Sha1.h" />

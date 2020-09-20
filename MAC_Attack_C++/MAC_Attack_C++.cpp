@@ -21,23 +21,23 @@ int main()
     //string corHash = corSha1.final();
     //cout << "The SHA-1 of \"" << orgMessage << "\" is: " << corHash << endl;
 
-    Custom_Sha1 corSha1;
-    corSha1.update(testMessage);
-    string corHash = corSha1.final();
-    cout << "The SHA-1 of \"" << testMessage << "\" is: " << corHash << endl;
+    //Custom_Sha1 corSha1;
+    //corSha1.update(testMessage);
+    //string corHash = corSha1.final();
+    //cout << "The SHA-1 of \"" << testMessage << "\" is: " << corHash << endl;
  
-    Custom_Sha1 checksum;
-    checksum.update(myTestMessage, testHash, 0);
-    string hash = checksum.final();
-    cout << "The SHA-1 of \"" << myTestMessage << "\" is: " << hash << endl;
-
-    //Custom_Sha1 mySha;
-    //mySha.update(orgMessage);
-    //string myHash = mySha.final();
     //Custom_Sha1 checksum;
-    //checksum.update(addMessage, orgHash, 1024);
+    //checksum.update(myTestMessage, testHash, 0);
     //string hash = checksum.final();
-    //cout << "The Mal SHA-1 of \"" << addMessage << "\" is: " << hash << endl;
+    //cout << "The SHA-1 of \"" << myTestMessage << "\" is: " << hash << endl;
+
+    Custom_Sha1 mySha;
+    mySha.update(orgMessage);
+    string myHash = mySha.final();
+    Custom_Sha1 checksum;
+    checksum.update(addMessage, orgHash, 1024);
+    string hash = checksum.final();
+    cout << "The Mal SHA-1 of \"" << addMessage << "\" is: " << hash << endl;
 
     return 0;
 
